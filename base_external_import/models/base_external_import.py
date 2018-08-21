@@ -39,16 +39,23 @@ class Task(models.Model):
     enabled = fields.Boolean(string='Execution enabled', default=True)
     dbsource_id = fields.Many2one('base.external.dbsource',
                                   string='Database source', required=True)
-    sql_source = fields.Text(string='SQL', required=True,
-                    help='Column names must be valid "import_data" columns.')
+    sql_source = fields.Text(
+        string='SQL',
+        required=True,
+        help='Column names must be valid "import_data" columns.'
+    )
     model_target = fields.Many2one('ir.model', string='Target object',
                                    required=True)
-    exec_order = fields.Integer(string='Execution order',
-                                help="Defines the order to perform the import",
-                                default=10)
-    last_sync = fields.Datetime(string='Last sync time',
-                help="Datetime for the last successful sync. \nLater changes \
-                    on the source may not be replicated on the destination")
+    exec_order = fields.Integer(
+        string='Execution order',
+        help="Defines the order to perform the import",
+        default=10
+    )
+    last_sync = fields.Datetime(
+        string='Last sync time',
+        help="Datetime for the last successful sync. \nLater changes \
+             on the source may not be replicated on the destination"
+    )
     start_run = fields.Datetime(string='Time started', readonly=True)
     last_run = fields.Datetime(string='Time ended', readonly=True)
     last_record_count = fields.Integer(string='Last record count',
@@ -93,7 +100,7 @@ class Task(models.Model):
         # Check the import model returned message
         if not importmsg['ids']:
             message = [i['message'] for i in importmsg['messages']
-                                                            if 'message' in i]
+                       if 'message' in i]
             _logger.debug(message)
             append_to_log(log, 'WARN', data, message)
             log['last_warn_count'] += 1
@@ -201,8 +208,10 @@ class Task(models.Model):
                          log['last_warn_count']))
             # Write run log, either if the table import is active or inactive
             if log['last_log']:
-                log['last_log'].insert(0,
-                    'LEVEL | == Line == | == Relationship == | == Message ==')
+                log['last_log'].insert(
+                    0,
+                    'LEVEL | == Line == | == Relationship == | == Message =='
+                    )
             log.update({'last_log': '\n'.join(log['last_log'])})
             log.update({'last_run': datetime.now().replace(microsecond=0)})
             obj.write(log)
