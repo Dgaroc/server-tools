@@ -12,7 +12,7 @@
     'website': 'https://github.com/OCA/server-tools',
     'license': 'LGPL-3',
     'depends': [
-        'base_external_dbsource_sqlite',
+        'base_external_dbsource',
     ],
     # Uncomment this for v11
     # 'external_dependencies': [
